@@ -13,6 +13,7 @@ public class JmsConfig {
     public static final String MY_SEND_RCV_QUEUE = "replybacktome";
 
     public static final String VALIDATE_ORDER_QUEUE = "validate-order";
+    public static final String VALIDATE_ORDER_RESPONSE_QUEUE = "validate-order-response";
 
     @Bean
     public MessageConverter messageConverter() {
