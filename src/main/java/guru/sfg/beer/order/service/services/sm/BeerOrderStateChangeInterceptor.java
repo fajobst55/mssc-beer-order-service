@@ -30,6 +30,8 @@ public class BeerOrderStateChangeInterceptor extends StateMachineInterceptorAdap
     @Override
     public void preStateChange(State<BeerOrderStatusEnum, BeerOrderEventEnum> state, Message<BeerOrderEventEnum> message,
                                Transition<BeerOrderStatusEnum, BeerOrderEventEnum> transition, StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachine) {
+        log.debug("Pre-State Change");
+
         Optional.ofNullable(message)
             .flatMap(msg -> Optional.ofNullable((String)msg.getHeaders().getOrDefault(BeerOrderManagerImpl.ORDER_ID_HEADER, " ")))
             .ifPresent(orderId -> {
