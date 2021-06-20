@@ -57,6 +57,9 @@ public class BeerOderStateMachineConfig extends StateMachineConfigurerAdapter<Be
                 .event(BeerOrderEventEnum.ALLOCATION_FAILED)
                 .and().withExternal()
                 .source(BeerOrderStatusEnum.ALLOCATION_PENDING).target(BeerOrderStatusEnum.PENDING_INVENTORY)
-                .event(BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
+                .event(BeerOrderEventEnum.ALLOCATION_NO_INVENTORY)
+        .and().withExternal()
+                .source(BeerOrderStatusEnum.ALLOCATED).target(BeerOrderStatusEnum.PICKED_UP)
+                .event(BeerOrderEventEnum.BEERORDER_PICKED_UP);
     }
 }
