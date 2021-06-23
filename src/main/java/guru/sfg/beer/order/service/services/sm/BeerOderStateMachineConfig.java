@@ -19,6 +19,7 @@ public class BeerOderStateMachineConfig extends StateMachineConfigurerAdapter<Be
 
     private final Action<BeerOrderStatusEnum, BeerOrderEventEnum>  validateOrderAction;
     private final Action<BeerOrderStatusEnum, BeerOrderEventEnum>  allocateOrderAction;
+    private final Action<BeerOrderStatusEnum, BeerOrderEventEnum>  validationFailureAction;
 
     @Override
     public void configure(StateMachineStateConfigurer<BeerOrderStatusEnum, BeerOrderEventEnum> states) throws Exception {
@@ -45,17 +46,18 @@ public class BeerOderStateMachineConfig extends StateMachineConfigurerAdapter<Be
         .and().withExternal()
                 .source(BeerOrderStatusEnum.VALIDATION_PENDING).target(BeerOrderStatusEnum.VALIDATION_EXCEPTION)
                 .event(BeerOrderEventEnum.VALIDATION_FAILED)
+                .action(validationFailureAction)
         .and().withExternal()
                 .source(BeerOrderStatusEnum.VALIDATED).target(BeerOrderStatusEnum.ALLOCATION_PENDING)
                 .event(BeerOrderEventEnum.ALLOCATE_ORDER)
                 .action(allocateOrderAction)
-                .and().withExternal()
+        .and().withExternal()
                 .source(BeerOrderStatusEnum.ALLOCATION_PENDING).target(BeerOrderStatusEnum.ALLOCATED)
                 .event(BeerOrderEventEnum.ALLOCATION_SUCCESS)
-                .and().withExternal()
+        .and().withExternal()
                 .source(BeerOrderStatusEnum.ALLOCATION_PENDING).target(BeerOrderStatusEnum.ALLOCATION_EXCEPTION)
                 .event(BeerOrderEventEnum.ALLOCATION_FAILED)
-                .and().withExternal()
+        .and().withExternal()
                 .source(BeerOrderStatusEnum.ALLOCATION_PENDING).target(BeerOrderStatusEnum.PENDING_INVENTORY)
                 .event(BeerOrderEventEnum.ALLOCATION_NO_INVENTORY)
         .and().withExternal()
